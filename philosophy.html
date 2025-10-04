@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Philosophy - TanapatDev</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-6DBMCVL5RK"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-6DBMCVL5RK");
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #f3f0e9;
+            --text-color: #4a443d;
+            --accent-color: #7a9d54;
+        }
+        body {
+            font-family: "Kanit", sans-serif;
+            margin: 0;
+            background-color: #fff9fb;
+            color: var(--text-color);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            border-bottom: 2px solid #fdf0f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-color);
+        }
+        .content-section {
+            padding: 4rem 0;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .section-header {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .content-section p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .share-button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-family: "Kanit", sans-serif;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .share-button:hover {
+            background-color: #6a8a4a;
+        }
+        .footer {
+            background-color: #f3f0e9;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        .footer-text {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-logo">Tanapat</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Test</a></li>
+                <li><a href="index.html">OUR PRODUCT</a></li>
+                <li><a href="#" class="active">OUR PHILOSOPHY</a></li>
+                <li><a href="index.html#contact-section">CONTACT US</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="content-section">
+        <div class="container">
+            <h1 class="section-header">Our Philosophy</h1>
+            <p>
+                เราเชื่อในการสร้างสรรค์ผลิตภัณฑ์จากธรรมชาติที่บริสุทธิ์และยั่งยืน ทุกขั้นตอนตั้งแต่การคัดเลือกวัตถุดิบไปจนถึงกระบวนการผลิต เราใส่ใจในทุกรายละเอียดเพื่อให้มั่นใจว่าผลิตภัณฑ์ของเราไม่เพียงแต่มีคุณภาพสูงสุด แต่ยังเป็นมิตรต่อสิ่งแวดล้อมและสนับสนุนชุมชนท้องถิ่น
+            </p>
+            <p>
+                ปรัชญาของเราคือการผสมผสานภูมิปัญญาดั้งเดิมเข้ากับนวัตกรรมสมัยใหม่ เพื่อส่งมอบสิ่งที่ดีที่สุดจากธรรมชาติสู่มือคุณ เรามุ่งมั่นที่จะสร้างแรงบันดาลใจให้ทุกคนหันมาดูแลสุขภาพและโลกของเราไปพร้อมๆ กัน
+            </p>
+            <button id="share-philosophy-btn" class="share-button">
+                <i class="fas fa-share-alt"></i> แชร์ปรัชญาของเรา
+            </button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" class="social-link" data-social="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank" class="social-link" data-social="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://line.me" target="_blank" class="social-link" data-social="Line"><i class="fab fa-line"></i></a>
+            </div>
+            <p class="footer-text">© 2025 TanapatDev. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+      // --- อีเวนต์ใหม่: share ---
+      const shareBtn = document.getElementById('share-philosophy-btn');
+      shareBtn.addEventListener('click', function() {
+        console.log("Event: share, Content: Philosophy Page");
+        alert("ขอบคุณที่แชร์ปรัชญาของเรา! (Event share ถูกส่งไปแล้ว)");
+
+        gtag('event', 'share', {
+            method: 'Button Click',
+            content_type: 'philosophy_page',
+            item_id: 'philosophy-main-text'
+        });
+      });
+    </script>
+  </body>
+</html>
