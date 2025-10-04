@@ -373,7 +373,7 @@
   </head>
   <body>
     <div id="preloader"><div class="spinner"></div></div>
-    <div class="leaves-container"></div>
+   
 
     <nav class="navbar">
       <div class="container">
@@ -394,7 +394,9 @@
       </div>
     </header>
 
+ 
     <main id="product-section" class="section">
+      <div class="leaves-container"></div>
       <div class="container">
         <h1 class="section-header">สินค้าแนะนำ</h1>
         <div class="product-grid">
@@ -638,22 +640,31 @@
         const navLinks = document.querySelectorAll('.nav-links .nav-link');
         window.addEventListener('scroll', ()=> {
             let current = '';
+            // Add home section to scroll spy
+            const homeSection = document.getElementById('home');
+            const homeSectionTop = homeSection.offsetTop;
+            if (pageYOffset >= homeSectionTop - 75) {
+                current = 'home';
+            }
+
             sections.forEach( section => {
                 const sectionTop = section.offsetTop;
-                if(pageYOffset >= sectionTop - 75){ // Offset for navbar height
+                if(pageYOffset >= sectionTop - 75){
                     current = section.getAttribute('id');
                 }
             });
 
             navLinks.forEach( a => {
                 a.classList.remove('active');
-                // Check if the link's href matches the current section's id
-                if(a.getAttribute('href').endsWith('#' + current)){
+                let href = a.getAttribute('href');
+                if(href.includes('#') && href.endsWith(current)){
+                    a.classList.add('active');
+                } else if (!href.includes('#') && href.includes(current)) {
                     a.classList.add('active');
                 }
             });
-             // Special case for home (top of page)
-            if (pageYOffset < sections[0].offsetTop - 75) {
+             // Highlight Home when at the very top
+             if (pageYOffset < sections[0].offsetTop - 75) {
                 navLinks.forEach(a => a.classList.remove('active'));
                 document.querySelector('.nav-links a[href="index.html"]').classList.add('active');
             }
