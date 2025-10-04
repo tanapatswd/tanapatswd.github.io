@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Articles - TanapatDev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-6DBMCVL5RK"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-6DBMCVL5RK");
+    </script>
+    <style>
+      :root {
+        --primary-color: #f3f0e9;
+        --text-color: #4a443d;
+        --accent-color: #7a9d54;
+      }
+      body {
+        font-family: "Kanit", sans-serif;
+        margin: 0;
+        background-color: #fff9fb;
+        color: var(--text-color);
+      }
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s, visibility 0.5s;
+      }
+      #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: var(--accent-color);
+        animation: spin 1s ease infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+      .navbar {
+        background-color: #ffffff;
+        padding: 1rem 0;
+        border-bottom: 2px solid #fdf0f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav-logo {
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: var(--accent-color);
+      }
+      .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 2rem;
+        font-weight: 500;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-color);
+        transition: color 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent-color);
+      }
+      .section {
+        padding: 4rem 0;
+        text-align: center;
+      }
+      .section-header {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+      .article-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        text-align: left;
+      }
+      .article-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        transition: transform 0.3s;
+      }
+      .article-card:hover {
+        transform: translateY(-5px);
+      }
+      .article-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .article-content {
+        padding: 1.5rem;
+      }
+      .article-content h3 {
+        margin-top: 0;
+      }
+      .article-tags {
+        margin-bottom: 1rem;
+      }
+      .tag {
+        background-color: #eee;
+        color: #555;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .share-btn {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .footer {
+        background-color: #f3f0e9;
+        padding: 2rem 0;
+        text-align: center;
+        margin-top: 4rem;
+      }
+      .social-icons a {
+        font-size: 1.5rem;
+        color: var(--text-color);
+        margin: 0 1rem;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .social-icons a:hover {
+        color: var(--accent-color);
+      }
+      .footer-text {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #888;
+      }
+      .swal2-confirm {
+        background-color: var(--accent-color) !important;
+      }
+      .leaves-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+      }
+      .leaf {
+        position: absolute;
+        top: -20px;
+        color: var(--accent-color);
+        opacity: 0.7;
+        animation: fall linear infinite;
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(105vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preloader"><div class="spinner"></div></div>
+    <div class="leaves-container"></div>
+
+    <nav class="navbar">
+      <div class="container">
+        <div class="nav-logo">Tanapat</div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="articles.html" class="nav-link active">Articles</a></li>
+          <li><a href="faq.html" class="nav-link">FAQ</a></li>
+          <li><a href="philosophy.html" class="nav-link">Philosophy</a></li>
+          <li>
+            <a href="index.html#contact-section" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="section">
+      <div class="container">
+        <h1 class="section-header">บทความน่ารู้</h1>
+        <div class="article-grid">
+          <div class="article-card">
+            <img src="images/564000006223701.jfif" alt="Monstera Plant" />
+            <div class="article-content">
+              <div class="article-tags">
+                <span class="tag">การดูแลต้นไม้</span>
+              </div>
+              <h3>5 ประโยชน์ของต้นมอนสเตอร่า</h3>
+              <p>
+                ค้นพบประโยชน์ที่น่าทึ่งของต้นมอนสเตอร่าที่มากกว่าความสวยงาม
+                ทั้งช่วยฟอกอากาศและเสริมฮวงจุ้ย...
+              </p>
+              <a href="#" class="share-btn"
+                >แชร์บทความนี้ <i class="fas fa-share-alt"></i
+              ></a>
+            </div>
+          </div>
+          <div class="article-card">
+            <img src="images/Image_a26dr1a26dr1a26d.png" alt="Brand Story" />
+            <div class="article-content">
+              <div class="article-tags">
+                <span class="tag">เรื่องราวของแบรนด์</span
+                ><span class="tag">แรงบันดาลใจ</span>
+              </div>
+              <h3>เรื่องราวความเป็นมาของแบรนด์เรา</h3>
+              <p>
+                จากความหลงใหลในธรรมชาติสู่ผลิตภัณฑ์ที่คุณไว้วางใจ
+                อ่านเรื่องราวการเดินทางของเราได้ที่นี่...
+              </p>
+              <a href="#" class="share-btn"
+                >แชร์บทความนี้ <i class="fas fa-share-alt"></i
+              ></a>
+            </div>
+          </div>
+          <div class="article-card">
+            <img
+              src="images/023289c383c440faa9216dff487003d3~tplv-sdweummd6v-text-logo-v1_QGFqYXJlZWF1aQ==_q75.jpeg"
+              alt="Plant pots"
+            />
+            <div class="article-content">
+              <div class="article-tags">
+                <span class="tag">การดูแลต้นไม้</span
+                ><span class="tag">DIY</span>
+              </div>
+              <h3>วิธีดูแลกระถางผักตบชวาไม่ให้ดำ</h3>
+              <p>
+                เคล็ดลับง่ายๆ
+                ในการดูแลรักษากระถางจากวัสดุธรรมชาติให้สวยงามและใช้งานได้ยาวนาน...
+              </p>
+              <a href="#" class="share-btn"
+                >แชร์บทความนี้ <i class="fas fa-share-alt"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer"></footer>
+
+    <script>
+      const preloader = document.getElementById("preloader");
+      window.addEventListener("load", () => {
+        preloader.classList.add("hidden");
+      });
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        if (!link.href.includes("index.html#")) {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const destination = this.href;
+            preloader.classList.remove("hidden");
+            setTimeout(() => {
+              window.location.href = destination;
+            }, 500);
+          });
+        }
+      });
+
+      // Event: select_content (for tags)
+      document.querySelectorAll(".tag").forEach((tag) => {
+        tag.addEventListener("click", function () {
+          const tagName = this.textContent.trim();
+          console.log(`Event: select_content, Tag: ${tagName}`);
+          gtag("event", "select_content", {
+            content_type: "article_category",
+            item_id: tagName,
+          });
+          Swal.fire({
+            title: "คุณเลือกหมวดหมู่:",
+            text: tagName,
+            icon: "info",
+            confirmButtonColor: "#7a9d54",
+          });
+        });
+      });
+
+      // Event: share (for articles)
+      document.querySelectorAll(".share-btn").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const articleTitle = this.closest(".article-content")
+            .querySelector("h3")
+            .textContent.trim();
+          console.log(`Event: share, Article: ${articleTitle}`);
+          gtag("event", "share", {
+            method: "Button Click",
+            content_type: "article",
+            item_id: articleTitle,
+          });
+          Swal.fire({
+            icon: "success",
+            title: "แชร์แล้ว!",
+            text: `ขอบคุณที่แชร์บทความ "${articleTitle}"`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const leavesContainer = document.querySelector(".leaves-container");
+        if (leavesContainer) {
+          const numberOfLeaves = 15;
+          for (let i = 0; i < numberOfLeaves; i++) {
+            const leaf = document.createElement("i");
+            leaf.className = "fas fa-leaf leaf";
+            leaf.style.left = `${Math.random() * 100}vw`;
+            leaf.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            leaf.style.animationDelay = `${Math.random() * 5}s`;
+            leaf.style.fontSize = `${Math.random() * 10 + 10}px`;
+            leavesContainer.appendChild(leaf);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

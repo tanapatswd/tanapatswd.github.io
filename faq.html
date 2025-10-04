@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - TanapatDev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-6DBMCVL5RK"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-6DBMCVL5RK");
+    </script>
+    <style>
+      :root {
+        --primary-color: #f3f0e9;
+        --text-color: #4a443d;
+        --accent-color: #7a9d54;
+      }
+      body {
+        font-family: "Kanit", sans-serif;
+        margin: 0;
+        background-color: #fff9fb;
+        color: var(--text-color);
+      }
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s, visibility 0.5s;
+      }
+      #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: var(--accent-color);
+        animation: spin 1s ease infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+      .navbar {
+        background-color: #ffffff;
+        padding: 1rem 0;
+        border-bottom: 2px solid #fdf0f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav-logo {
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: var(--accent-color);
+      }
+      .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 2rem;
+        font-weight: 500;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-color);
+        transition: color 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent-color);
+      }
+      .section {
+        padding: 4rem 0;
+        text-align: center;
+      }
+      .section-header {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+      .accordion {
+        max-width: 800px;
+        margin: 2rem auto;
+        text-align: left;
+      }
+      .accordion-item {
+        border-bottom: 1px solid #eee;
+      }
+      .accordion-button {
+        background-color: #fff;
+        color: var(--text-color);
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 1.1rem;
+        font-family: "Kanit", sans-serif;
+        transition: background-color 0.4s ease;
+        position: relative;
+        font-weight: 500;
+      }
+      .accordion-button::after {
+        content: "\f078"; /* Font Awesome chevron-down */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: var(--accent-color);
+        position: absolute;
+        right: 18px;
+        transition: transform 0.2s ease-out;
+      }
+      .accordion-button.active::after {
+        transform: rotate(-180deg);
+      }
+      .accordion-button:hover {
+        background-color: #f9f9f9;
+      }
+      .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+      .panel p {
+        padding: 1rem 0;
+        margin: 0;
+        line-height: 1.7;
+      }
+      .footer {
+        background-color: #f3f0e9;
+        padding: 2rem 0;
+        text-align: center;
+        margin-top: 4rem;
+      }
+      .social-icons a {
+        font-size: 1.5rem;
+        color: var(--text-color);
+        margin: 0 1rem;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .social-icons a:hover {
+        color: var(--accent-color);
+      }
+      .footer-text {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #888;
+      }
+      .leaves-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+      }
+      .leaf {
+        position: absolute;
+        top: -20px;
+        color: var(--accent-color);
+        opacity: 0.7;
+        animation: fall linear infinite;
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(105vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preloader"><div class="spinner"></div></div>
+    <div class="leaves-container"></div>
+    
+    <nav class="navbar">
+      <div class="container">
+        <div class="nav-logo">Tanapat</div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="articles.html" class="nav-link">Articles</a></li>
+          <li><a href="faq.html" class="nav-link active">FAQ</a></li>
+          <li><a href="philosophy.html" class="nav-link">Philosophy</a></li>
+          <li>
+            <a href="index.html#contact-section" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="section">
+      <div class="container">
+        <h1 class="section-header">คำถามที่พบบ่อย</h1>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-button">วิธีการจัดส่งเป็นอย่างไร?</button>
+            <div class="panel">
+              <p>
+                เราจัดส่งผ่าน Kerry Express และ Flash Express ครับ
+                โดยปกติจะใช้เวลา 1-3 วันทำการในเขตกรุงเทพและปริมณฑล และ 2-5
+                วันสำหรับต่างจังหวัด หลังจากจัดส่งแล้วคุณจะได้รับเลข Tracking
+                ผ่านทางอีเมลครับ
+              </p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-button">
+              สินค้าเสียหายระหว่างขนส่งทำอย่างไร?
+            </button>
+            <div class="panel">
+              <p>
+                หากสินค้าของคุณได้รับความเสียหายระหว่างการขนส่ง
+                กรุณาถ่ายรูปหรือวิดีโอของสินค้าที่เสียหายและกล่องพัสดุ
+                แล้วติดต่อเราผ่านหน้า Contact Us ภายใน 24
+                ชั่วโมงหลังจากได้รับสินค้า
+                ทางเราจะรีบดำเนินการจัดส่งสินค้าชิ้นใหม่ให้ทันทีครับ
+              </p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-button">รับชำระเงินช่องทางไหนบ้าง?</button>
+            <div class="panel">
+              <p>
+                ปัจจุบันเรารับชำระเงินผ่าน 2 ช่องทางหลักครับ:<br />1.
+                โอนเงินผ่านบัญชีธนาคาร<br />2. ชำระผ่านบัตรเครดิต/เดบิต (เร็วๆ
+                นี้)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer"></footer>
+
+    <script>
+      const preloader = document.getElementById("preloader");
+      window.addEventListener("load", () => {
+        preloader.classList.add("hidden");
+      });
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        if (!link.href.includes("index.html#")) {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const destination = this.href;
+            preloader.classList.remove("hidden");
+            setTimeout(() => {
+              window.location.href = destination;
+            }, 500);
+          });
+        }
+      });
+
+      // Accordion and Event Logic
+      const acc = document.querySelectorAll(".accordion-button");
+      acc.forEach((button) => {
+        button.addEventListener("click", function () {
+          const wasActive = this.classList.contains("active");
+
+          // Close all panels
+          acc.forEach((btn) => {
+            btn.classList.remove("active");
+            btn.nextElementSibling.style.maxHeight = null;
+          });
+
+          // Open the clicked panel if it wasn't already active
+          if (!wasActive) {
+            this.classList.add("active");
+            const panel = this.nextElementSibling;
+            panel.style.maxHeight = panel.scrollHeight + "px";
+
+            const questionText = this.textContent.trim();
+            console.log(`Event: select_content, FAQ: ${questionText}`);
+
+            gtag("event", "select_content", {
+              content_type: "faq_question",
+              item_id: questionText,
+            });
+          }
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const leavesContainer = document.querySelector(".leaves-container");
+        if (leavesContainer) {
+          const numberOfLeaves = 15;
+          for (let i = 0; i < numberOfLeaves; i++) {
+            const leaf = document.createElement("i");
+            leaf.className = "fas fa-leaf leaf";
+            leaf.style.left = `${Math.random() * 100}vw`;
+            leaf.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            leaf.style.animationDelay = `${Math.random() * 5}s`;
+            leaf.style.fontSize = `${Math.random() * 10 + 10}px`;
+            leavesContainer.appendChild(leaf);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
