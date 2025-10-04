@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TanapatDev</title>
+    <title>TanapatDev - Home</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -11,6 +12,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-6DBMCVL5RK"
@@ -23,6 +27,7 @@
       gtag("js", new Date());
       gtag("config", "G-6DBMCVL5RK");
     </script>
+
     <style>
       :root {
         --primary-color: #f3f0e9;
@@ -37,6 +42,55 @@
         margin: 0;
         background-color: #fff9fb;
         color: var(--text-color);
+      }
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s, visibility 0.5s;
+      }
+      #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: var(--accent-color);
+        animation: spin 1s ease infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .leaves-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: -1;
+      }
+      .leaf {
+          position: absolute;
+          top: -20px;
+          color: var(--accent-color);
+          opacity: 0.7;
+          animation: fall linear infinite;
+      }
+      @keyframes fall {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
       }
       .container {
         max-width: 1200px;
@@ -82,9 +136,32 @@
       .nav-links a.active {
         color: var(--accent-color);
       }
+      
+      /* --- NEW: Hero Section Styles --- */
+      .hero-section {
+        height: 60vh;
+        background-image: url('images/growing-plants-home-concept.jpg');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+      }
+      .hero-section h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+      }
+      /* --- End of New Styles --- */
+
       .section {
         padding: 4rem 0;
         text-align: center;
+        position: relative;
+        z-index: 1;
+        background-color: #fff9fb; /* Add background to show over leaves */
       }
       .section-header {
         font-size: 2.5rem;
@@ -110,9 +187,7 @@
         transform: translateY(-5px);
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
       }
-      .product-link {
-        text-decoration: none;
-      }
+      .product-link { text-decoration: none; }
       .product-image {
         width: 100%;
         height: 250px;
@@ -139,7 +214,7 @@
         color: var(--accent-color);
         margin-bottom: 1rem;
       }
-      .add-to-cart-btn, .submit-btn {
+      .add-to-cart-btn, .submit-btn, .confirm-cart-btn {
         background-color: var(--accent-color);
         color: white;
         border: none;
@@ -152,7 +227,7 @@
         font-weight: 500;
         transition: background-color 0.3s;
       }
-      .add-to-cart-btn:hover, .submit-btn:hover {
+      .add-to-cart-btn:hover, .submit-btn:hover, .confirm-cart-btn:hover {
         background-color: #6a8a4a;
       }
       .contact-form {
@@ -160,9 +235,7 @@
         margin: 0 auto;
         text-align: left;
       }
-      .form-group {
-        margin-bottom: 1.5rem;
-      }
+      .form-group { margin-bottom: 1.5rem; }
       .form-group label {
         display: block;
         margin-bottom: 0.5rem;
@@ -186,6 +259,7 @@
         padding: 2rem 0;
         text-align: center;
         position: relative;
+        z-index: 1;
       }
       .social-icons a {
         font-size: 1.5rem;
@@ -194,9 +268,7 @@
         text-decoration: none;
         transition: color 0.3s;
       }
-      .social-icons a:hover {
-        color: var(--accent-color);
-      }
+      .social-icons a:hover { color: var(--accent-color); }
       .footer-text {
         margin-top: 1rem;
         font-size: 0.9rem;
@@ -223,113 +295,150 @@
         opacity: 1;
         visibility: visible;
       }
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.6);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+      }
+      .modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        position: relative;
+      }
+      .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.5rem;
+        color: #aaa;
+        cursor: pointer;
+      }
+      .modal-product-image {
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 8px;
+        margin: 0 auto 1rem auto;
+      }
+      .modal-product-name {
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+      }
+      .quantity-selector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .quantity-btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      #quantity-input {
+        width: 60px;
+        height: 40px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-left: none;
+        border-right: none;
+        font-size: 1.2rem;
+        font-family: 'Kanit', sans-serif;
+      }
+      .swal2-confirm {
+          background-color: var(--accent-color) !important;
+      }
     </style>
   </head>
-  <body id="home"> <nav class="navbar">
+  <body id="home">
+    <div id="preloader"><div class="spinner"></div></div>
+    <div class="leaves-container"></div>
+
+    <nav class="navbar">
       <div class="container">
         <div class="nav-logo">Tanapat</div>
         <ul class="nav-links">
-          <li><a href="#home" class="nav-link">Home</a></li>
-          <li><a href="#product-section" class="nav-link active">OUR PRODUCT</a></li>
-          <li><a href="philosophy.html" class="nav-link">OUR PHILOSOPHY</a></li> 
-          <li><a href="#contact-section" class="nav-link">CONTACT US</a></li>
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="articles.html" class="nav-link">Articles</a></li>
+          <li><a href="faq.html" class="nav-link">FAQ</a></li>
+          <li><a href="philosophy.html" class="nav-link">Philosophy</a></li> 
+          <li><a href="#contact-section" class="nav-link">Contact</a></li>
         </ul>
       </div>
     </nav>
+    
+    <header class="hero-section section" id="hero-section">
+      <div class="container">
+        <h1>TANAPAT TEST PRODUCT</h1>
+      </div>
+    </header>
 
     <main id="product-section" class="section">
       <div class="container">
-        <h1 class="section-header">TANAPAT TEST PRODUCT</h1>
+        <h1 class="section-header">สินค้าแนะนำ</h1>
         <div class="product-grid">
-          <div
-            class="product-card"
-            data-id="SKU001"
-            data-name="FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ใบมอนสเตอรา, 12 ซม."
-            data-price="249"
-          >
-            <a href="#" class="product-link">
-              <div
-                class="product-image"
-                style="
-                  background-image: url('https://www.ikea.com/pimg/0959226_pe809439_s5.jpg?f=xl');
-                "
-              ></div>
-            </a>
-            <div class="product-info">
-              <p class="product-name">
-                FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ใบมอนสเตอรา, 12
-                ซม.
-              </p>
-              <p class="product-price">฿249 THB</p>
-              <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
-            </div>
+          <div class="product-card" data-id="SKU001" data-name="FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ใบมอนสเตอรา, 12 ซม." data-price="249">
+              <a href="#" class="product-link">
+                  <div class="product-image" style="background-image: url('https://www.ikea.com/pimg/0959226_pe809439_s5.jpg?f=xl');"></div>
+              </a>
+              <div class="product-info">
+                  <p class="product-name">FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ใบมอนสเตอรา, 12 ซม.</p>
+                  <p class="product-price">฿249 THB</p>
+                  <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
+              </div>
           </div>
-          <div
-            class="product-card"
-            data-id="SKU002"
-            data-name="FRIDFULL ฟรีดฟุล กระถางต้นไม้, ผักตบชวา, 12 ซม."
-            data-price="149"
-          >
-            <a href="#" class="product-link">
-              <div
-                class="product-image"
-                style="
-                  background-image: url('https://www.ikea.com/pimg/0635630_pe697292_s5.jpg?f=xl');
-                "
-              ></div>
-            </a>
-            <div class="product-info">
-              <p class="product-name">
-                FRIDFULL ฟรีดฟุล กระถางต้นไม้, ผักตบชวา, 12 ซม.
-              </p>
-              <p class="product-price">฿149 THB</p>
-              <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
-            </div>
+          <div class="product-card" data-id="SKU002" data-name="FRIDFULL ฟรีดฟุล กระถางต้นไม้, ผักตบชวา, 12 ซม." data-price="149">
+              <a href="#" class="product-link">
+                  <div class="product-image" style="background-image: url('https://www.ikea.com/pimg/0635630_pe697292_s5.jpg?f=xl');"></div>
+              </a>
+              <div class="product-info">
+                  <p class="product-name">FRIDFULL ฟรีดฟุล กระถางต้นไม้, ผักตบชวา, 12 ซม.</p>
+                  <p class="product-price">฿149 THB</p>
+                  <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
+              </div>
           </div>
-          <div
-            class="product-card"
-            data-id="SKU003"
-            data-name="KAKTUSFIKON คอคทูส์ฟีคอน กระถางต้นไม้, หวาย, 12 ซม."
-            data-price="199"
-          >
-            <a href="#" class="product-link">
-              <div
-                class="product-image"
-                style="
-                  background-image: url('https://www.ikea.com/th/th/images/products/kaktusfikon-plant-pot-rattan__0919741_pe789478_s5.jpg?f=xl');
-                "
-              ></div>
-            </a>
-            <div class="product-info">
-              <p class="product-name">
-                KAKTUSFIKON คอคทูส์ฟีคอน กระถางต้นไม้, หวาย, 12 ซม.
-              </p>
-              <p class="product-price">฿199 THB</p>
-              <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
-            </div>
+          <div class="product-card" data-id="SKU003" data-name="KAKTUSFIKON คอคทูส์ฟีคอน กระถางต้นไม้, หวาย, 12 ซม." data-price="199">
+              <a href="#" class="product-link">
+                  <div class="product-image" style="background-image: url('https://www.ikea.com/th/th/images/products/kaktusfikon-plant-pot-rattan__0919741_pe789478_s5.jpg?f=xl');"></div>
+              </a>
+              <div class="product-info">
+                  <p class="product-name">KAKTUSFIKON คอคทูส์ฟีคอน กระถางต้นไม้, หวาย, 12 ซม.</p>
+                  <p class="product-price">฿199 THB</p>
+                  <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
+              </div>
           </div>
-          <div
-            class="product-card"
-            data-id="SKU004"
-            data-name="FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ไม้ยูคาลิปตัส, 15 ซม."
-            data-price="990"
-          >
-            <a href="#" class="product-link">
-              <div
-                class="product-image"
-                style="
-                  background-image: url('https://www.ikea.com/th/th/images/products/fejka-artificial-potted-plant-in-outdoor-eucalyptus__0674947_pe718059_s5.jpg?f=xl');
-                "
-              ></div>
-            </a>
-            <div class="product-info">
-              <p class="product-name">
-                FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ไม้ยูคาลิปตัส, 15
-                ซม.
-              </p>
-              <p class="product-price">฿990 THB</p>
-              <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
-            </div>
+          <div class="product-card" data-id="SKU004" data-name="FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ไม้ยูคาลิปตัส, 15 ซม." data-price="990">
+              <a href="#" class="product-link">
+                  <div class="product-image" style="background-image: url('https://www.ikea.com/th/th/images/products/fejka-artificial-potted-plant-in-outdoor-eucalyptus__0674947_pe718059_s5.jpg?f=xl');"></div>
+              </a>
+              <div class="product-info">
+                  <p class="product-name">FEJKA เฟคก้า ไม้ประดิษฐ์ในกระถาง, ใน/นอกอาคาร ไม้ยูคาลิปตัส, 15 ซม.</p>
+                  <p class="product-price">฿990 THB</p>
+                  <button class="add-to-cart-btn">หยิบใส่ตะกร้า</button>
+              </div>
           </div>
         </div>
       </div>
@@ -369,66 +478,140 @@
 
     <button id="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 
+    <div id="cart-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close-btn">&times;</span>
+            <div id="modal-product-image" class="modal-product-image"></div>
+            <p id="modal-product-name" class="modal-product-name"></p>
+            <div class="quantity-selector">
+                <button id="decrease-qty" class="quantity-btn">-</button>
+                <input type="number" id="quantity-input" value="1" min="1">
+                <button id="increase-qty" class="quantity-btn">+</button>
+            </div>
+            <button id="confirm-cart-btn" class="confirm-cart-btn">ยืนยันเพิ่มลงตะกร้า</button>
+        </div>
+    </div>
+
     <script>
-        // --- All event listeners are now here ---
-        // Event: add_to_cart
+        // All JavaScript is the same as before...
+        const preloader = document.getElementById('preloader');
+        window.addEventListener('load', () => {
+            preloader.classList.add('hidden');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (!link.getAttribute('href').startsWith('#')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const destination = this.href;
+                    preloader.classList.remove('hidden');
+                    setTimeout(() => {
+                        window.location.href = destination;
+                    }, 500);
+                });
+            }
+        });
+        
+        const cartModal = document.getElementById('cart-modal');
+        const closeModalBtn = document.getElementById('modal-close-btn');
+        const confirmCartBtn = document.getElementById('confirm-cart-btn');
+        const decreaseQtyBtn = document.getElementById('decrease-qty');
+        const increaseQtyBtn = document.getElementById('increase-qty');
+        const quantityInput = document.getElementById('quantity-input');
+        
+        let currentProductData = {}; 
+
         document.querySelectorAll(".add-to-cart-btn").forEach((button) => {
             button.addEventListener("click", function () {
-            const productCard = this.closest(".product-card");
-            const productId = productCard.dataset.id;
-            const productName = productCard.dataset.name;
-            const productPrice = parseFloat(productCard.dataset.price);
-            console.log(`Event: add_to_cart, Item: ${productName}`);
+                const productCard = this.closest(".product-card");
+                const productImageStyle = productCard.querySelector('.product-image').style.backgroundImage;
+                currentProductData = {
+                    id: productCard.dataset.id,
+                    name: productCard.dataset.name,
+                    price: parseFloat(productCard.dataset.price)
+                };
+                document.getElementById('modal-product-image').style.backgroundImage = productImageStyle;
+                document.getElementById('modal-product-name').textContent = currentProductData.name;
+                quantityInput.value = 1;
+                cartModal.classList.add('show');
+            });
+        });
+
+        function closeModal() {
+            cartModal.classList.remove('show');
+        }
+        closeModalBtn.addEventListener('click', closeModal);
+        cartModal.addEventListener('click', function(event) {
+            if (event.target === cartModal) { closeModal(); }
+        });
+
+        decreaseQtyBtn.addEventListener('click', () => {
+            let qty = parseInt(quantityInput.value);
+            if (qty > 1) { quantityInput.value = qty - 1; }
+        });
+        increaseQtyBtn.addEventListener('click', () => {
+            let qty = parseInt(quantityInput.value);
+            quantityInput.value = qty + 1;
+        });
+
+        confirmCartBtn.addEventListener('click', function() {
+            const quantity = parseInt(quantityInput.value);
+            console.log(`Event: add_to_cart, Item: ${currentProductData.name}, Quantity: ${quantity}`);
             gtag("event", "add_to_cart", {
                 currency: "THB",
-                value: productPrice,
-                items: [
-                {
-                    item_id: productId,
-                    item_name: productName,
-                    price: productPrice,
-                    quantity: 1,
-                },
-                ],
+                value: currentProductData.price * quantity,
+                items: [{
+                    item_id: currentProductData.id,
+                    item_name: currentProductData.name,
+                    price: currentProductData.price,
+                    quantity: quantity,
+                }],
             });
+            closeModal(); 
+            Swal.fire({
+                icon: 'success',
+                title: 'เพิ่มสินค้าลงตะกร้าแล้ว!',
+                text: `คุณได้เพิ่ม "${currentProductData.name}" จำนวน ${quantity} ชิ้น`,
+                showConfirmButton: false,
+                timer: 2000
             });
         });
 
-        // Event: view_item
         document.querySelectorAll(".product-link").forEach(link => {
             link.addEventListener("click", function (event) {
-            event.preventDefault(); 
-            const productCard = this.closest(".product-card");
-            const productId = productCard.dataset.id;
-            const productName = productCard.dataset.name;
-            const productPrice = parseFloat(productCard.dataset.price);
-            console.log(`Event: view_item, Item: ${productName}`);
-            gtag("event", "view_item", {
-                currency: "THB",
-                value: productPrice,
-                items: [
-                {
-                    item_id: productId,
-                    item_name: productName,
-                },
-                ],
-            });
+                event.preventDefault(); 
+                const productCard = this.closest(".product-card");
+                const productId = productCard.dataset.id;
+                const productName = productCard.dataset.name;
+                const productPrice = parseFloat(productCard.dataset.price);
+                console.log(`Event: view_item, Item: ${productName}`);
+                gtag("event", "view_item", {
+                    currency: "THB",
+                    value: productPrice,
+                    items: [{
+                        item_id: productId,
+                        item_name: productName,
+                    }],
+                });
             });
         });
 
-        // Event: form_submit
         document.getElementById('contact-form').addEventListener('submit', function(event) {
             event.preventDefault(); 
             console.log('Event: form_submit (Contact Form Submitted)');
-            alert('ขอบคุณสำหรับข้อความ! (Event form_submit ถูกส่งไปแล้ว)');
             gtag('event', 'form_submit', {
                 event_category: 'contact',
                 event_label: 'Main Contact Form'
             });
             this.reset();
+            Swal.fire({
+                icon: 'success',
+                title: 'ส่งข้อความสำเร็จ!',
+                text: 'ขอบคุณสำหรับข้อความ เราจะติดต่อกลับโดยเร็วที่สุด',
+                confirmButtonColor: '#7a9d54'
+            });
         });
 
-        // Event: select_content (Social media)
         document.querySelectorAll('.social-link').forEach(link => {
             link.addEventListener('click', function() {
                 const socialPlatform = this.dataset.social;
@@ -440,7 +623,6 @@
             });
         });
 
-        // Back to Top Button Logic
         const backToTopButton = document.getElementById("back-to-top");
         window.onscroll = function() {
             if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
@@ -455,23 +637,36 @@
             gtag('event', 'scroll_to_top');
         });
 
-        // Navbar Active Link on Scroll (Scroll Spy)
         const sections = document.querySelectorAll('.section');
         const navLinks = document.querySelectorAll('.nav-links a.nav-link');
         window.addEventListener('scroll', ()=> {
-            let current = '';
+            let current = 'hero-section';
             sections.forEach( section => {
                 const sectionTop = section.offsetTop;
-                if(pageYOffset >= sectionTop - 70){ // 70 is navbar height
+                if(pageYOffset >= sectionTop - 70){
                     current = section.getAttribute('id');
                 }
             })
             navLinks.forEach( a => {
                 a.classList.remove('active');
-                if(a.getAttribute('href') == '#' + current){
+                if(a.getAttribute('href').endsWith('#' + current)){
                     a.classList.add('active');
                 }
             })
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const leavesContainer = document.querySelector('.leaves-container');
+            const numberOfLeaves = 15;
+            for (let i = 0; i < numberOfLeaves; i++) {
+                const leaf = document.createElement('i');
+                leaf.className = 'fas fa-leaf leaf';
+                leaf.style.left = `${Math.random() * 100}vw`;
+                leaf.style.animationDuration = `${(Math.random() * 5) + 5}s`;
+                leaf.style.animationDelay = `${Math.random() * 5}s`;
+                leaf.style.fontSize = `${(Math.random() * 10) + 10}px`;
+                leavesContainer.appendChild(leaf);
+            }
         });
     </script>
   </body>
