@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-6DBMCVL5RK"
@@ -23,128 +23,180 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-6DBMCVL5RK");
     </script>
-
     <style>
-        :root {
-            --primary-color: #f3f0e9;
-            --text-color: #4a443d;
-            --accent-color: #7a9d54;
-        }
-        body {
-            font-family: "Kanit", sans-serif;
-            margin: 0;
-            background-color: #fff9fb;
-            color: var(--text-color);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-        .navbar {
-            background-color: #ffffff;
-            padding: 1rem 0;
-            border-bottom: 2px solid #fdf0f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .navbar .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .nav-logo {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--accent-color);
-        }
-        .nav-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 2rem;
-            font-weight: 500;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-color);
-            transition: color 0.3s;
-        }
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--accent-color);
-        }
-        .content-section {
-            padding: 4rem 0;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-        .section-header {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        .content-section p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-        .share-button {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-family: "Kanit", sans-serif;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
-            display: inline-block;
-            margin-top: 1rem;
-        }
-        .share-button:hover {
-            background-color: #6a8a4a;
-        }
-        .footer {
-            background-color: #f3f0e9;
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
-        }
-        .social-icons a {
-            font-size: 1.5rem;
-            color: var(--text-color);
-            margin: 0 1rem;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .social-icons a:hover {
-            color: var(--accent-color);
-        }
-        .footer-text {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #888;
-        }
+      :root {
+        --primary-color: #f3f0e9;
+        --text-color: #4a443d;
+        --accent-color: #7a9d54;
+      }
+      body {
+        font-family: "Kanit", sans-serif;
+        margin: 0;
+        background-color: #fff9fb;
+        color: var(--text-color);
+      }
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s, visibility 0.5s;
+      }
+      #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: var(--accent-color);
+        animation: spin 1s ease infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .leaves-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: -1;
+      }
+      .leaf {
+          position: absolute;
+          top: -20px;
+          color: var(--accent-color);
+          opacity: 0.7;
+          animation: fall linear infinite;
+      }
+      @keyframes fall {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+      .navbar {
+        background-color: #ffffff;
+        padding: 1rem 0;
+        border-bottom: 2px solid #fdf0f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav-logo {
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: var(--accent-color);
+      }
+      .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 2rem;
+        font-weight: 500;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-color);
+        transition: color 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent-color);
+      }
+      .content-section {
+        padding: 4rem 0;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+        position: relative;
+        z-index: 1;
+      }
+      .section-header {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .content-section p {
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+      }
+      .share-button {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-family: "Kanit", sans-serif;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s;
+        display: inline-block;
+        margin-top: 1rem;
+      }
+      .share-button:hover { background-color: #6a8a4a; }
+      .swal2-confirm { background-color: var(--accent-color) !important; }
+      .footer {
+        background-color: #f3f0e9;
+        padding: 2rem 0;
+        text-align: center;
+        margin-top: 4rem;
+        position: relative;
+        z-index: 1;
+      }
+      .social-icons a {
+        font-size: 1.5rem;
+        color: var(--text-color);
+        margin: 0 1rem;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .social-icons a:hover { color: var(--accent-color); }
+      .footer-text {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #888;
+      }
     </style>
   </head>
   <body>
+    <div id="preloader"><div class="spinner"></div></div>
+    <div class="leaves-container"></div>
+    
     <nav class="navbar">
-        <div class="container">
-            <div class="nav-logo">Tanapat</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#product-section">OUR PRODUCT</a></li>
-                <li><a href="philosophy.html" class="active">OUR PHILOSOPHY</a></li>
-                <li><a href="index.html#contact-section">CONTACT US</a></li>
-            </ul>
-        </div>
+      <div class="container">
+        <div class="nav-logo">Tanapat</div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="articles.html" class="nav-link">Articles</a></li>
+          <li><a href="faq.html" class="nav-link">FAQ</a></li>
+          <li><a href="philosophy.html" class="nav-link active">Philosophy</a></li>
+          <li><a href="index.html#contact-section" class="nav-link">Contact</a></li>
+        </ul>
+      </div>
     </nav>
 
     <main class="content-section">
@@ -163,27 +215,68 @@
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <div class="social-icons">
-                <a href="https://facebook.com" target="_blank" class="social-link" data-social="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://instagram.com" target="_blank" class="social-link" data-social="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://line.me" target="_blank" class="social-link" data-social="Line"><i class="fab fa-line"></i></a>
-            </div>
-            <p class="footer-text">© 2025 TanapatDev. All Rights Reserved.</p>
-        </div>
-    </footer>
+        </footer>
 
     <script>
-      // --- Event: share ---
-      document.getElementById('share-philosophy-btn').addEventListener('click', function() {
-        console.log("Event: share, Content: Philosophy Page");
-        alert("ขอบคุณที่แชร์ปรัชญาของเรา! (Event share ถูกส่งไปแล้ว)");
-
-        gtag('event', 'share', {
-            method: 'Button Click',
-            content_type: 'philosophy_page',
-            item_id: 'philosophy-main-text'
+      const preloader = document.getElementById('preloader');
+        window.addEventListener('load', () => {
+            preloader.classList.add('hidden');
         });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (!link.href.includes('index.html#')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const destination = this.href;
+                    preloader.classList.remove('hidden');
+                    setTimeout(() => {
+                        window.location.href = destination;
+                    }, 500);
+                });
+            }
+        });
+
+      document.getElementById('share-philosophy-btn').addEventListener('click', function() {
+        Swal.fire({
+            title: 'คุณต้องการแชร์ปรัชญาของเราหรือไม่?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'แชร์เลย!',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonColor: '#7a9d54',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("Event: share, Content: Philosophy Page");
+                gtag('event', 'share', {
+                    method: 'Button Click',
+                    content_type: 'philosophy_page',
+                    item_id: 'philosophy-main-text'
+                });
+                Swal.fire({
+                    icon: 'success',
+                    title: 'แชร์เรียบร้อย!',
+                    text: 'ขอบคุณที่แบ่งปันเรื่องราวของเรา',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+            const leavesContainer = document.querySelector('.leaves-container');
+            if(leavesContainer) {
+                const numberOfLeaves = 15;
+                for (let i = 0; i < numberOfLeaves; i++) {
+                    const leaf = document.createElement('i');
+                    leaf.className = 'fas fa-leaf leaf';
+                    leaf.style.left = `${Math.random() * 100}vw`;
+                    leaf.style.animationDuration = `${(Math.random() * 5) + 5}s`;
+                    leaf.style.animationDelay = `${Math.random() * 5}s`;
+                    leaf.style.fontSize = `${(Math.random() * 10) + 10}px`;
+                    leavesContainer.appendChild(leaf);
+                }
+            }
       });
     </script>
   </body>
